@@ -8,6 +8,25 @@ struct Game {
     turns: Vec<Turn>,
 }
 
+impl Game {
+    fn get_max_red(&self) -> Option<u32> {
+        self.turns.iter().map(|t| t.red.unwrap_or(0)).max()
+    }
+    fn get_max_green(&self) -> Option<u32> {
+        self.turns.iter().map(|t| t.green.unwrap_or(0)).max()
+    }
+    fn get_max_blue(&self) -> Option<u32> {
+        self.turns.iter().map(|t| t.blue.unwrap_or(0)).max()
+    }
+    fn get_minimal_cube_power(&self) -> u32 {
+        let red = self.get_max_red().unwrap_or(1);
+        let green = self.get_max_green().unwrap_or(1);
+        let blue = self.get_max_blue().unwrap_or(1);
+
+        red * green * blue
+    }
+}
+
 impl IsValid for Game {
     fn is_valid(&self) -> bool {
         self.turns.iter().all(|t| t.is_valid())
@@ -16,9 +35,9 @@ impl IsValid for Game {
 
 #[derive(Default, Debug)]
 struct Turn {
-    red: u8,
-    green: u8,
-    blue: u8,
+    red: Option<u32>,
+    green: Option<u32>,
+    blue: Option<u32>,
 }
 
 impl Turn {
@@ -26,11 +45,11 @@ impl Turn {
         let mut new_turn = Turn::default();
         for cube in turn {
             let (num, color) = cube.split_once(' ').unwrap_or(("", ""));
-            let num = num.parse::<u8>().unwrap_or(0);
+            let num = num.parse::<u32>().unwrap();
             match color {
-                "green" => new_turn.green = num,
-                "red" => new_turn.red = num,
-                "blue" => new_turn.blue = num,
+                "green" => new_turn.green = Some(num),
+                "red" => new_turn.red = Some(num),
+                "blue" => new_turn.blue = Some(num),
                 _ => unreachable!("You shouldn't be here"),
             };
         }
@@ -40,7 +59,20 @@ impl Turn {
 
 impl IsValid for Turn {
     fn is_valid(&self) -> bool {
-        self.red <= 12 && self.green <= 13 && self.blue <= 14
+        let mut valid_red = true;
+        let mut valid_green = true;
+        let mut valid_blue = true;
+
+        if let Some(red) = self.red {
+            valid_red = red <= 12;
+        }
+        if let Some(green) = self.green {
+            valid_green = green <= 13;
+        }
+        if let Some(blue) = self.blue {
+            valid_blue = blue <= 14;
+        }
+        valid_red && valid_green && valid_blue
     }
 }
 
@@ -86,8 +118,14 @@ fn solve_part_one(input: &str) -> u32 {
         .sum()
 }
 
-fn solve_part_two(_input: &str) -> u32 {
-    0
+fn solve_part_two(input: &str) -> u32 {
+    input
+        .lines()
+        .map(|line| {
+            let game = line.parse::<Game>().unwrap();
+            game.get_minimal_cube_power()
+        })
+        .sum()
 }
 
 fn main() {
