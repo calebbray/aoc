@@ -12,7 +12,7 @@ impl Race {
     }
 }
 
-fn solve(races: &Vec<Race>) -> usize {
+fn solve(races: Vec<Race>) -> usize {
     races
         .iter()
         .map(|race| {
@@ -39,8 +39,8 @@ fn parse_race_data(input: &str) -> Vec<Race> {
 }
 
 fn main() {
-    let part_one = solve(&parse_race_data(include_str!("./input.txt")));
-    let part_two = solve(&parse_race_data(include_str!("./input2.txt")));
+    let part_one = solve(parse_race_data(include_str!("./input.txt")));
+    let part_two = solve(parse_race_data(include_str!("./input2.txt")));
     dbg!(part_one);
     dbg!(part_two);
 }
