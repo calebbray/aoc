@@ -1,0 +1,71 @@
+use std::{collections::HashMap, str::FromStr};
+
+#[derive(Debug)]
+struct Node {
+    label: String,
+    left: String,
+    right: String,
+}
+
+#[derive(Debug)]
+struct ParseError;
+
+impl FromStr for Node {
+    type Err = ParseError;
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        let parts: Vec<&str> = s.split_whitespace().collect();
+
+        let left = parts[2][1..parts[2].len()].to_string();
+        let right = parts[3][0..parts[3].len() - 1].to_string();
+        Ok(Node {
+            label: parts[0].to_string(),
+            left,
+            right,
+        })
+    }
+}
+
+fn solve_part_one(input: &str, target: &str) -> usize {
+    let directions: String = input.lines().take(1).collect();
+    let nodes: HashMap<String, Node> = input
+        .lines()
+        .skip(2)
+        .map(|line| {
+            let parts: Vec<&str> = line.split_whitespace().collect();
+            let node = line.parse().unwrap();
+            (parts[0].to_string(), node)
+        })
+        .collect();
+
+    let mut count = 0;
+    let mut directions_iterator = directions.chars();
+    let mut next_node = nodes.get("AAA");
+
+    loop {
+        if let Some(node) = next_node {
+            let next_dir = directions_iterator.next();
+            match next_dir {
+                Some('L') => {
+                    if curr_node.left.as_str() == target {
+                        return count;
+                    }
+                }
+                Some('R') => {
+                    if curr_node.right.as_str() == target {
+                        return count;
+                    }
+                }
+                Some(_) => unreachable!(),
+                None => directions_iterator = directions.chars(),
+            }
+            count += 1;
+        }
+    }
+    count
+}
+
+fn main() {
+    let input = include_str!("./sample.txt");
+    let part_one = solve_part_one(input, "ZZZ");
+    dbg!(part_one);
+}
