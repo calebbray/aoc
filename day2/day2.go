@@ -1,4 +1,4 @@
-package main
+package day2
 
 import (
 	"fmt"
@@ -102,8 +102,8 @@ func Splice(s Level, i int) Level {
 
 	return append(ts[:i], ts[i+1:]...)
 }
-func main() {
-	content := getFileContent("input.txt")
+func Solve() {
+	content := getFileContent("day2/input.txt")
 	strs := strings.Split(content, "\n")
 
 	levels := make([]Level, len(strs))
