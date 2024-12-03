@@ -13,22 +13,10 @@ type lexer struct {
 	input     string
 	position  int
 	recording bool
-	ch        byte
 }
 
 func newLexer(input string) *lexer {
-	l := &lexer{input: input, recording: true}
-	l.readChar()
-	return l
-}
-
-func (l *lexer) readChar() {
-	if l.position >= len(l.input) {
-		l.ch = 0
-	} else {
-		l.ch = l.input[l.position]
-	}
-	l.position += 1
+	return &lexer{input: input, recording: true}
 }
 
 func (l *lexer) parseToggle() {
