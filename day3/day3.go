@@ -40,14 +40,12 @@ func (l *lexer) parseToggle() {
 }
 
 func (l *lexer) parseMul() (string, bool) {
-	startPos := l.position
 	var mul []byte
-	if l.input[startPos:startPos+4] != "mul(" {
+	if l.input[l.position:l.position+4] != "mul(" {
 		l.position++
 		return "", false
 	}
 	l.position += 4
-	startPos += 4
 	mul = append(mul, 'm', 'u', 'l', '(')
 
 	for isDigit(l.input[l.position]) {
