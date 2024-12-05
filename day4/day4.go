@@ -51,6 +51,7 @@ var (
 	DownRight direction = [2]int{1, 1}
 )
 
+// for debugging
 func (d direction) String() string {
 	switch d {
 	case Up:
@@ -85,7 +86,6 @@ func (m *xmasMaze) scanXmas(last byte, dir direction, currPoint point) {
 	nextChar := m.maze[nextCoord.y][nextCoord.x]
 	switch last {
 	case 'X':
-		// fmt.Printf("scanning at root (%d, %d) (%c) going %s\n", currPoint.x, currPoint.y, last, dir)
 		if nextChar == 'M' {
 			m.scanXmas(nextChar, dir, nextCoord)
 		}
@@ -189,9 +189,6 @@ func newMaze(content string) *xmasMaze {
 		xmas[i] = xmasLine(line)
 	}
 
-	// for _, l := range xmas {
-	// 	fmt.Println(l)
-	// }
 	return &xmasMaze{maze: xmas, hits: 0, curr: point{0, 0}}
 }
 
