@@ -34,10 +34,6 @@ type point struct {
 	x, y int
 }
 
-func (p point) isValid(m *xmasMaze) bool {
-	return p.x < 0 || p.x > len(m.maze[0]) || p.y < 0 || p.y > len(m.maze)
-}
-
 type direction [2]int
 
 var (
