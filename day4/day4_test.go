@@ -3,6 +3,8 @@ package day4
 import (
 	"fmt"
 	"testing"
+
+	"github.com/calebbray/aoc/util"
 )
 
 const testString = `MMMSXXMASM
@@ -71,18 +73,18 @@ func TestMazeRunning(t *testing.T) {
 	t.Run("test scanning for xmas", func(t *testing.T) {
 		tests := []struct {
 			name       string
-			direction  direction
+			direction  util.Direction
 			testString string
 			start      point
 		}{
-			{"right", Right, simpleTest, point{0, 0}},
-			{"down", Down, simpleTest, point{0, 0}},
-			{"down and right", DownRight, simpleTest, point{0, 0}},
-			{"left", Left, backwardTest, point{3, 3}},
-			{"up", Up, backwardTest, point{3, 3}},
-			{"up and left", UpLeft, backwardTest, point{3, 3}},
-			{"down and left", DownLeft, downAndLeft, point{3, 0}},
-			{"up and right", UpRight, upAndRight, point{0, 3}},
+			{"right", util.Right, simpleTest, point{0, 0}},
+			{"down", util.Down, simpleTest, point{0, 0}},
+			{"down and right", util.DownRight, simpleTest, point{0, 0}},
+			{"left", util.Left, backwardTest, point{3, 3}},
+			{"up", util.Up, backwardTest, point{3, 3}},
+			{"up and left", util.UpLeft, backwardTest, point{3, 3}},
+			{"down and left", util.DownLeft, downAndLeft, point{3, 0}},
+			{"up and right", util.UpRight, upAndRight, point{0, 3}},
 		}
 
 		for _, tt := range tests {

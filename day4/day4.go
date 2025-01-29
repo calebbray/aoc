@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"fmt"
 	"strings"
+
+	u "github.com/calebbray/aoc/util"
 )
 
 func Solve(content string) (int, int) {
@@ -34,46 +36,9 @@ type point struct {
 	x, y int
 }
 
-type direction [2]int
+var directions = []u.Direction{u.Up, u.UpRight, u.Right, u.DownRight, u.Down, u.DownLeft, u.Left, u.UpLeft}
 
-var (
-	UpLeft    direction = [2]int{-1, -1}
-	Up        direction = [2]int{0, -1}
-	UpRight   direction = [2]int{1, -1}
-	Left      direction = [2]int{-1, 0}
-	Right     direction = [2]int{1, 0}
-	DownLeft  direction = [2]int{-1, 1}
-	Down      direction = [2]int{0, 1}
-	DownRight direction = [2]int{1, 1}
-)
-
-// for debugging
-func (d direction) String() string {
-	switch d {
-	case Up:
-		return "Up"
-	case UpRight:
-		return "UpRight"
-	case Right:
-		return "Right"
-	case DownRight:
-		return "DownRight"
-	case Down:
-		return "Down"
-	case DownLeft:
-		return "DownLeft"
-	case Left:
-		return "Left"
-	case UpLeft:
-		return "UpLeft"
-	default:
-		return "invalid direction"
-	}
-}
-
-var directions = []direction{Up, UpRight, Right, DownRight, Down, DownLeft, Left, UpLeft}
-
-func (m *xmasMaze) scanXmas(last byte, dir direction, currPoint point) {
+func (m *xmasMaze) scanXmas(last byte, dir u.Direction, currPoint point) {
 	nextCoord := point{x: currPoint.x + dir[0], y: currPoint.y + dir[1]}
 	if nextCoord.x < 0 || nextCoord.x > len(m.maze[0])-1 || nextCoord.y < 0 || nextCoord.y > len(m.maze)-1 {
 		return
@@ -135,7 +100,7 @@ func (m *xmasMaze) walk() {
 	m.walk()
 }
 
-var diagonalChecks = []direction{UpLeft, DownRight, UpRight, DownLeft}
+var diagonalChecks = []u.Direction{u.UpLeft, u.DownRight, u.UpRight, u.DownLeft}
 
 func (m *xmasMaze) scanMas() {
 	checks := make([]byte, 4)

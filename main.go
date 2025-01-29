@@ -7,6 +7,8 @@ import (
 	"github.com/calebbray/aoc/day2"
 	"github.com/calebbray/aoc/day3"
 	"github.com/calebbray/aoc/day4"
+	"github.com/calebbray/aoc/day5"
+	"github.com/calebbray/aoc/day6"
 	"github.com/calebbray/aoc/util"
 )
 
@@ -30,5 +32,11 @@ func solve(day int) {
 	case 4:
 		content := util.GetFileContent("day4/input.txt")
 		fmt.Println(day4.Solve(content))
+	case 5:
+		content := util.GetFileContent("day5/input.txt")
+		fmt.Println(day5.SolveTest(content))
+	case 6:
+		content := util.GetFileContent("day6/input.txt")
+		fmt.Println(day6.Solve(content))
 	}
 }
